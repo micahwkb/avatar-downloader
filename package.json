@@ -1,0 +1,28 @@
+{
+  "name": "github-avatars",
+  "version": "1.0.0",
+  "description": "Grabs avatar for given github user(s) passed as command-line args",
+  "main": "download_avatars.js",
+  "dependencies": {
+    "request": "^2.78.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/micahwkb/avatar-downloader.git"
+  },
+  "keywords": [
+    "avatar",
+    "github",
+    "git"
+  ],
+  "author": "Micah Britton",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/micahwkb/avatar-downloader/issues"
+  },
+  "homepage": "https://github.com/micahwkb/avatar-downloader#readme"
+}
