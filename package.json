@@ -4,6 +4,8 @@
   "description": "Grabs avatar for given github user(s) passed as command-line args",
   "main": "download_avatars.js",
   "dependencies": {
+    "fs": "0.0.1-security",
+    "https": "^1.0.0",
     "request": "^2.78.0"
   },
   "devDependencies": {},
