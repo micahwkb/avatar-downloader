@@ -9,7 +9,7 @@ const userInput = process.argv.slice(2)
 const owner = userInput[0]
 const repo = userInput[1]
 
-let urlInfo = {
+const urlInfo = {
  url: 'https://api.github.com/',
  auth: {
   user: authData.user,
@@ -20,45 +20,53 @@ let urlInfo = {
  }
 }
 
-let contribPath = "repos/" + owner + "/" + repo + "/contributors"
 
+// if (owner == 'undefined' || repo == 'undefined') {
+//   console.log("Please provide the repo owner and project, in the form `node download_avatars.js foo bar`")
+// }
+
+let contribPath = "repos/" + owner + "/" + repo + "/contributors"
 
 function getContributors(owner, repo) {
   let contributors = []
   urlInfo.url += contribPath
+console.log(urlInfo.url)
   request.get(urlInfo, function(error, response, body) {
     let data = JSON.parse(body)
     data.forEach(function(user) {
     contributors.push(user.login)
-
     })
-    console.log(contributors)
-
+    // console.log("Here are the contributors to the " + repo + " repo")
+    contributors.forEach(function(login) {
+      let url = getAvatarUrl(login)
+      console.log(url)
+    })
   })
 }
 
 getContributors(owner, repo);
 
 
-/*
-function getUserAvatar (urlInfo, uname) {
-  let userPath = "users/" + uname + "/"
-  urlInfo.url += userPath
+function getAvatarUrl (uname) {
+  urlInfo.url += "users/" + uname
   console.log(urlInfo.url)
   request.get(urlInfo, function (error, response, body) {
     if (!error && response.statusCode == 200) {
       let avatarUrl = JSON.parse(body).avatar_url
-      console.log("Getting avatar from:", avatarUrl)
+      // console.log("Getting avatar from:", avatarUrl)
+      return avatarUrl
     } else {
       console.log(error)
     }
   })
          .on('response', function(response) {
-            if(response.statusCode == 200) console.log('working...')
+            if(response.statusCode == 200) {
+              console.log('working...')
+            }
          })
 }
 
-getUserAvatar(owner);*/
+// getAvatarUrl("telitos");
 //
 // userInput.forEach(function(username) {
 // })
