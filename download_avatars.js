@@ -38,45 +38,45 @@ const userURL = {
 
 let contribPath = owner + "/" + repo + "/contributors"
 
-// function getContributors(owner, repo) {
-//   let contributors = []
-//   repoUrl.url += contribPath
-// console.log(repoUrl.url)
-//   request.get(repoUrl, function(error, response, body) {
-//     let data = JSON.parse(body)
-//     data.forEach(function(user) {
-//     contributors.push(user.login)
-//     })
-//     // console.log("Here are the contributors to the " + repo + " repo")
-//     contributors.forEach(function(login) {
-//       let url = getAvatarUrl(login)
-//       console.log(url)
-//     })
-//   })
-// }
-
-// getContributors(owner, repo);
-const urlArray = []
-
-function getAvatarUrl (uname) {
-  userURL.url += "users/" + uname
-  request.get(userURL, function (error, response, body) {
-    if (!error && response.statusCode == 200) {
-      let avatarUrl = JSON.parse(body).avatar_url
-      console.log("Getting avatar from:", avatarUrl)
-      urlArray.push(avatarUrl)
-      console.log(urlArray)
-    } else {
-      console.log(error)
-    }
+function getRepoContributors(owner, repo, cb) {
+  let contributorAvatarUrls = []
+  repoUrl.url += contribPath
+  // console.log(repoUrl.url)
+  request.get(repoUrl, function(error, response, body) {
+    let repoData = JSON.parse(body)
+    repoData.forEach(function(user) {
+      console.log("Retrieving avatar URl for " + user.login)
+      contributorAvatarUrls.push(user.avatar_url)
+    })
+    contributorAvatarUrls.forEach(function(url) {
+      cb(url)
+    })
   })
-         .on('response', function(response) {
-            if(response.statusCode == 200) {
-            }
-         })
 }
 
-getAvatarUrl("telitos");
+getRepoContributors(owner, repo)
+
+const urlArray = []
+
+// function getAvatarUrl (uname) {
+//   userURL.url += "users/" + uname
+//   request.get(userURL, function (error, response, body) {
+//     if (!error && response.statusCode == 200) {
+//       let avatarUrl = JSON.parse(body).avatar_url
+//       console.log("Getting avatar from:", avatarUrl)
+//       urlArray.push(avatarUrl)
+//       console.log(urlArray)
+//     } else {
+//       console.log(error)
+//     }
+//   })
+//          .on('response', function(response) {
+//             if(response.statusCode == 200) {
+//             }
+//          })
+// }
+
+// getAvatarUrl("telitos");
 //
 // userInput.forEach(function(username) {
 // })
