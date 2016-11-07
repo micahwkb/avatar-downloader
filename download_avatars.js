@@ -3,41 +3,83 @@
 const request = require('request')
 const fs = require('fs')
 const https = require('https')
-const token = require('authData')
+const authData = require('./authData')
 
-let searchData = {
- url: "https://api.github.com/users/"
+const userInput = process.argv.slice(2)
+const owner = userInput[0]
+const repo = userInput[1]
+
+let urlInfo = {
+ url: 'https://api.github.com/',
  auth: {
-  user: "micahwkb",
-  pass:
+  user: authData.user,
+  pass: authData.token
+ },
+ headers: {
+  'User-Agent': 'Lighthouse Labs avatar exercise, via node.js'
  }
 }
 
-let userInput = process.argv.slice(2)
+let contribPath = "repos/" + owner + "/" + repo + "/contributors"
 
 
-// can append searchData as follows:
-// searchData += "testy"
-// console.log(searchData)
+function getContributors(owner, repo) {
+  let contributors = []
+  urlInfo.url += contribPath
+  request.get(urlInfo, function(error, response, body) {
+    let data = JSON.parse(body)
+    data.forEach(function(user) {
+    contributors.push(user.login)
 
-console.log(userInput)
+    })
+    console.log(contributors)
 
-userInput.forEach(function(username) {
-  let avatarURL
-  searchData += username
-  request.get(searchData, function (error, response, body) {
+  })
+}
+
+getContributors(owner, repo);
+
+
+/*
+function getUserAvatar (urlInfo, uname) {
+  let userPath = "users/" + uname + "/"
+  urlInfo.url += userPath
+  console.log(urlInfo.url)
+  request.get(urlInfo, function (error, response, body) {
     if (!error && response.statusCode == 200) {
-      console.log(body)
+      let avatarUrl = JSON.parse(body).avatar_url
+      console.log("Getting avatar from:", avatarUrl)
     } else {
       console.log(error)
     }
   })
          .on('response', function(response) {
-          console.log('Response Status Code: ', response.statusCode);
-          console.log('Response Message: ', response.statusMessage);
-          console.log('Content Type: ',response.headers['content-type'], '\n');
-
+            if(response.statusCode == 200) console.log('working...')
          })
-})
+}
+
+getUserAvatar(owner);*/
+//
+// userInput.forEach(function(username) {
+// })
+
+
+// works - outputs to stdout a given user's avatar_url
+
+// userInput.forEach(function(username) {
+//   searchData.url = searchData.url + username
+//   request.get(searchData, function (error, response, body) {
+//     if (!error && response.statusCode == 200) {
+//       avatarUrl = JSON.parse(body).avatar_url
+//       console.log(avatarUrl)
+//     } else {
+//       console.log(error)
+//     }
+//   })
+//          .on('response', function(response) {
+//             if(response.statusCode == 200) console.log('working...')
+
+//          })
+// })
 
 //variable for avatar.. data.avatar_url
