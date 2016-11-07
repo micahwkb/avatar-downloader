@@ -9,7 +9,18 @@ const userInput = process.argv.slice(2)
 const owner = userInput[0]
 const repo = userInput[1]
 
-const urlInfo = {
+const repoUrl = {
+ url: 'https://api.github.com/repos/',
+ auth: {
+  user: authData.user,
+  pass: authData.token
+ },
+ headers: {
+  'User-Agent': 'Lighthouse Labs avatar exercise, via node.js'
+ }
+}
+
+const userURL = {
  url: 'https://api.github.com/',
  auth: {
   user: authData.user,
@@ -25,48 +36,47 @@ const urlInfo = {
 //   console.log("Please provide the repo owner and project, in the form `node download_avatars.js foo bar`")
 // }
 
-let contribPath = "repos/" + owner + "/" + repo + "/contributors"
+let contribPath = owner + "/" + repo + "/contributors"
 
-function getContributors(owner, repo) {
-  let contributors = []
-  urlInfo.url += contribPath
-console.log(urlInfo.url)
-  request.get(urlInfo, function(error, response, body) {
-    let data = JSON.parse(body)
-    data.forEach(function(user) {
-    contributors.push(user.login)
-    })
-    // console.log("Here are the contributors to the " + repo + " repo")
-    contributors.forEach(function(login) {
-      let url = getAvatarUrl(login)
-      console.log(url)
-    })
-  })
-}
+// function getContributors(owner, repo) {
+//   let contributors = []
+//   repoUrl.url += contribPath
+// console.log(repoUrl.url)
+//   request.get(repoUrl, function(error, response, body) {
+//     let data = JSON.parse(body)
+//     data.forEach(function(user) {
+//     contributors.push(user.login)
+//     })
+//     // console.log("Here are the contributors to the " + repo + " repo")
+//     contributors.forEach(function(login) {
+//       let url = getAvatarUrl(login)
+//       console.log(url)
+//     })
+//   })
+// }
 
-getContributors(owner, repo);
-
+// getContributors(owner, repo);
+const urlArray = []
 
 function getAvatarUrl (uname) {
-  urlInfo.url += "users/" + uname
-  console.log(urlInfo.url)
-  request.get(urlInfo, function (error, response, body) {
+  userURL.url += "users/" + uname
+  request.get(userURL, function (error, response, body) {
     if (!error && response.statusCode == 200) {
       let avatarUrl = JSON.parse(body).avatar_url
-      // console.log("Getting avatar from:", avatarUrl)
-      return avatarUrl
+      console.log("Getting avatar from:", avatarUrl)
+      urlArray.push(avatarUrl)
+      console.log(urlArray)
     } else {
       console.log(error)
     }
   })
          .on('response', function(response) {
             if(response.statusCode == 200) {
-              console.log('working...')
             }
          })
 }
 
-// getAvatarUrl("telitos");
+getAvatarUrl("telitos");
 //
 // userInput.forEach(function(username) {
 // })
