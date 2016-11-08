@@ -20,6 +20,8 @@ const repoUrl = {
  }
 }
 
+console.log(repoUrl.auth.pass)
+
 // download a given image path into /avatars directory
 function downloadImageByURL(url, filePath) {
   request.get(url, function(err, response, data){
@@ -48,16 +50,19 @@ function getRepoContributors(owner, repo, cb) {
   })
 }
 
+function missingEnv() {
+  console.log("\nTOKEN=\(your git API token\)")
+  console.log("USER=\(your git username\)\n")
+  console.log("see https://github.com/bkeepers/dotenv")
+}
 try {
   fs.statSync(".env")
 }
 catch (e) {
   fs.writeFile(".env")
   console.log("\n=== dotenv not configured! ===")
-  console.log("see https://github.com/bkeepers/dotenv")
   console.log("Created .env, please add lines:")
-  console.log("TOKEN=\(your git API token\)")
-  console.log("USER=\(your git username\)' lines\n")
+  missingEnv()
   throw e
 }
 
@@ -75,8 +80,11 @@ catch (e) {
 function runConditionsMet() {
   const exampleMessage = "example: `node download_avatars.js nodejs node`"
   if (!owner || !repo) {
-    console.log("Usage: input a repository owner and project, in the form:")
+    console.log("\nUsage: input a repository owner and project, in the form:")
     console.log(exampleMessage)
+  } else if (repoUrl.auth.pass == undefined) {
+    console.log("It looks like your .env file is missing data, please check:")
+    missingEnv()
   } else if (userInput.length > 2) {
     console.log("Too many arguments given!")
     console.log(exampleMessage)
@@ -84,6 +92,7 @@ function runConditionsMet() {
     getRepoContributors(owner, repo, downloadImageByURL)
   }
 }
+console.log(process.env.LOGNAME === process.env.USER)
 
-// call conditional immediately
+// call test function immediately
 runConditionsMet()
