@@ -19,9 +19,6 @@ const repoUrl = {
   'User-Agent': 'Lighthouse Labs avatar exercise, via node.js'
  }
 }
-console.log(process.env._USER)
-console.log(process.env._TOKEN)
-
 
 // download a given image path into /avatars directory
 function downloadImageByURL(url, filePath) {
