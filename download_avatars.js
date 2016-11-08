@@ -58,9 +58,13 @@ catch (e) {
 
 // check for complete input at command-line
 function ifVariablesPassed() {
+  const exampleMessage = "example: `node download_avatars.js nodejs node`"
   if (!owner || !repo) {
-    console.log("Please input a repository owner and project, in the form:")
-    console.log("example: `node download_avatars.js nodejs node`")
+    console.log("Usage: input a repository owner and project, in the form:")
+    console.log(exampleMessage)
+  } else if (userInput.length > 2) {
+    console.log("Too many arguments given!")
+    console.log(exampleMessage)
   } else {
     getRepoContributors(owner, repo, downloadImageByURL)
   }
