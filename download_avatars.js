@@ -3,6 +3,7 @@
 require('dotenv').config()
 
 const request = require('request')
+const mkdirp = require('mkdirp')
 const fs = require('fs')
 const https = require('https')
 const userInput = process.argv.slice(2)
@@ -45,6 +46,14 @@ function getRepoContributors(owner, repo, cb) {
       cb(user.avatar_url, filePath)
     })
   })
+}
+
+try {
+  fs.statSync("./avatars")
+}
+catch (e) {
+  console.log("Created 'avatars' directory")
+  mkdirp('./avatars')
 }
 
 // check for complete input at command-line
