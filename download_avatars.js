@@ -24,10 +24,10 @@ const repoUrl = {
 // download a given image path into /avatars directory
 function downloadImageByURL(url, filePath) {
   request.get(url, function(err, response, data) {
-         if(err){
-           throw err
-         }
-       })
+    if(err){
+      throw err
+    }
+  })
          .pipe(fs.createWriteStream('./avatars/' + filePath))
         console.log('Saved ' + filePath + ' to ./avatars')
       }
@@ -88,21 +88,22 @@ catch (e) {
 
 
 // check for complete input at command-line
-function runConditionsMet() {
+function runConditionsMet(owner, repo, input, url, callback) {
+  const urlPass = url.auth.pass
   const exampleMessage = "example: `node download_avatars.js nodejs node`"
   if (!owner || !repo) {
     console.log("\nUsage: input a repository owner and project, in the form:")
     console.log(exampleMessage)
-  } else if (repoUrl.auth.pass === undefined) {
+  } else if (urlPass === undefined) {
     console.log("It looks like your .env file is missing data, please check:")
     missingEnv()
-  } else if (userInput.length > 2) {
+  } else if (input.length > 2) {
     console.log("Too many arguments given!")
     console.log(exampleMessage)
   } else {
-    getRepoContributors(owner, repo, downloadImageByURL)
+    getRepoContributors(owner, repo, callback)
   }
 }
 
 // call test function immediately
-runConditionsMet()
+runConditionsMet(owner, repo, userInput, repoUrl, downloadImageByURL)
