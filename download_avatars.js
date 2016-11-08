@@ -49,14 +49,29 @@ function getRepoContributors(owner, repo, cb) {
 }
 
 try {
+  fs.statSync(".env")
+}
+catch (e) {
+  fs.writeFile(".env")
+  console.log("\n=== dotenv not configured! ===")
+  console.log("see https://github.com/bkeepers/dotenv")
+  console.log("Created .env, please add lines:")
+  console.log("TOKEN=\(your git API token\)")
+  console.log("USER=\(your git username\)' lines\n")
+  throw e
+}
+
+try {
   fs.statSync("./avatars")
 }
 catch (e) {
-  console.log("Created 'avatars' directory")
+  console.log("\nCreated 'avatars' directory")
   mkdirp('./avatars')
 }
 
+
 // check for complete input at command-line
+
 function runConditionsMet() {
   const exampleMessage = "example: `node download_avatars.js nodejs node`"
   if (!owner || !repo) {
