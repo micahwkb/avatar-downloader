@@ -1,4 +1,4 @@
-('use strict')
+'use strict'
 
 require('dotenv').config()
 
@@ -93,7 +93,7 @@ function runConditionsMet() {
   if (!owner || !repo) {
     console.log("\nUsage: input a repository owner and project, in the form:")
     console.log(exampleMessage)
-  } else if (repoUrl.auth.pass == undefined) {
+  } else if (repoUrl.auth.pass === undefined) {
     console.log("It looks like your .env file is missing data, please check:")
     missingEnv()
   } else if (userInput.length > 2) {
