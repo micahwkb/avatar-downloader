@@ -21,7 +21,6 @@ const repoUrl = {
 
 // download a given image path into /avatars directory
 function downloadImageByURL(url, filePath) {
-  let dotty = "."
   request.get(url, function(err, response, data){
          if(err){
            throw err
