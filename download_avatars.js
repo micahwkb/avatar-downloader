@@ -27,9 +27,9 @@ function downloadImageByURL(url, filePath) {
       throw err
     }
   })
-         .pipe(fs.createWriteStream('./avatars/' + filePath))
-        console.log('Saved ' + filePath + ' to ./avatars')
-      }
+         .pipe(fs.createWriteStream(`./avatars/${filePath}`))
+        console.log(`Saved ${filePath} to ./avatars`)
+}
 
 // .env file issue messages
 function missingEnv() {
@@ -42,7 +42,7 @@ function missingEnv() {
 // for a given repo, gather each contributor's avatar URL
 function getRepoContributors(owner, repo, cb) {
   console.log("\nFetching contributor metadata...")
-  repoUrl.url += owner + "/" + repo + "/contributors"
+  repoUrl.url += `${owner}/${repo}/contributors`
   request.get(repoUrl, function(error, response, body) {
     if(error){
            throw error
@@ -50,7 +50,7 @@ function getRepoContributors(owner, repo, cb) {
     let repoData = JSON.parse(body)
     repoData.forEach(function(user) {
       let login = user.login
-      console.log("\nRetrieving avatar for " + login)
+      console.log(`\nRetrieving avatar for ${login}`)
       let filePath = login + '.jpg'
       // send to callback
       cb(user.avatar_url, filePath)
