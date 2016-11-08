@@ -20,11 +20,10 @@ const repoUrl = {
  }
 }
 
-console.log(repoUrl.auth.pass)
 
 // download a given image path into /avatars directory
 function downloadImageByURL(url, filePath) {
-  request.get(url, function(err, response, data){
+  request.get(url, function(err, response, data) {
          if(err){
            throw err
          }
@@ -33,12 +32,22 @@ function downloadImageByURL(url, filePath) {
         console.log('Saved ' + filePath + ' to ./avatars')
       }
 
+// .env file issue messages
+function missingEnv() {
+  console.log("\nTOKEN=\(your github token\)")
+  console.log("USER=\(your git username\)\n")
+  console.log("see https://github.com/bkeepers/dotenv\n")
+}
+
 
 // for a given repo, gather each contributor's avatar URL
 function getRepoContributors(owner, repo, cb) {
   console.log("\nFetching contributor metadata...")
   repoUrl.url += owner + "/" + repo + "/contributors"
   request.get(repoUrl, function(error, response, body) {
+    if(error){
+           throw error
+         }
     let repoData = JSON.parse(body)
     repoData.forEach(function(user) {
       let login = user.login
@@ -48,13 +57,16 @@ function getRepoContributors(owner, repo, cb) {
       cb(user.avatar_url, filePath)
     })
   })
+         // handles bad authentication
+         .on('response', function(response) {
+           if(response.statusCode === 401) {
+             console.log("\n\nIs your github token correct? Please check .env file")
+             missingEnv()
+           }
+         })
 }
 
-function missingEnv() {
-  console.log("\nTOKEN=\(your git API token\)")
-  console.log("USER=\(your git username\)\n")
-  console.log("see https://github.com/bkeepers/dotenv")
-}
+// test for missing .env file
 try {
   fs.statSync(".env")
 }
@@ -66,6 +78,7 @@ catch (e) {
   throw e
 }
 
+// test for missing avatars folder
 try {
   fs.statSync("./avatars")
 }
@@ -92,7 +105,6 @@ function runConditionsMet() {
     getRepoContributors(owner, repo, downloadImageByURL)
   }
 }
-console.log(process.env.LOGNAME === process.env.USER)
 
 // call test function immediately
 runConditionsMet()
