@@ -2,7 +2,7 @@
 
 ## Problem Statement
 
-Given a GitHub repository name and owner:
+Given a GitHub repository name and owner:</br>
 1. Fetch URLs for all the contributors' profile avatars
 2. Save the images to a subdirectory, `/avatars`.
 
