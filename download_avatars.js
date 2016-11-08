@@ -57,10 +57,10 @@ function getRepoContributors(owner, repo, cb) {
       cb(user.avatar_url, filePath)
     })
   })
-         // handles bad authentication
+         // handles bad .env credentials
          .on('response', function(response) {
            if(response.statusCode === 401) {
-             console.log("\n\nIs your github token correct? Please check .env file")
+             console.log("\n\nIs your github token correct? Please check .env file:")
              missingEnv()
            }
          })
@@ -75,7 +75,6 @@ catch (e) {
   console.log("\n=== dotenv not configured! ===")
   console.log("Created .env, please add lines:")
   missingEnv()
-  throw e
 }
 
 // test for missing avatars folder
@@ -89,7 +88,6 @@ catch (e) {
 
 
 // check for complete input at command-line
-
 function runConditionsMet() {
   const exampleMessage = "example: `node download_avatars.js nodejs node`"
   if (!owner || !repo) {
