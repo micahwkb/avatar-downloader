@@ -3,7 +3,7 @@
 ## Problem Statement
 
 Given a GitHub repository name and owner:</br>
-1. Fetch URLs for all the contributors' profile avatars
+1. Fetch URLs for all the contributors' profile avatars</br>
 2. Save the images to a subdirectory, `/avatars`.
 
 ## Expected Usage
