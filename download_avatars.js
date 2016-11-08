@@ -12,13 +12,15 @@ const repo = userInput[1]
 const repoUrl = {
  url: 'https://api.github.com/repos/',
  auth: {
-  user: process.env.USER,
-  pass: process.env.TOKEN
+  user: process.env._USER,
+  pass: process.env._TOKEN
  },
  headers: {
   'User-Agent': 'Lighthouse Labs avatar exercise, via node.js'
  }
 }
+console.log(process.env._USER)
+console.log(process.env._TOKEN)
 
 
 // download a given image path into /avatars directory
