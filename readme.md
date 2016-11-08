@@ -17,5 +17,6 @@ This program should be executed from the command line, in the following manner:
 
 ## givens
 - should be run from macOS or Linux terminal
-- working directory must contain an `avatars` folder
+- working directory must contain an `avatars` folder (or this folder will be created)
 - uses [dotenv](https://github.com/bkeepers/dotenv) to obscure the github user API
+- requires USER and TOKEN fields be completed with github username and api token (instruction provided)
