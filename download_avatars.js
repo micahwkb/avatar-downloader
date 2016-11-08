@@ -57,7 +57,7 @@ catch (e) {
 }
 
 // check for complete input at command-line
-function ifVariablesPassed() {
+function runConditionsMet() {
   const exampleMessage = "example: `node download_avatars.js nodejs node`"
   if (!owner || !repo) {
     console.log("Usage: input a repository owner and project, in the form:")
@@ -71,4 +71,4 @@ function ifVariablesPassed() {
 }
 
 // call conditional immediately
-ifVariablesPassed()
+runConditionsMet()
