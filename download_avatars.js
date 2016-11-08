@@ -41,7 +41,7 @@ function getRepoContributors(owner, repo, cb) {
     let repoData = JSON.parse(body)
     repoData.forEach(function(user) {
       let login = user.login
-      console.log("Retrieving avatar URl for " + login)
+      console.log("\nRetrieving avatar URl for " + login)
       // contributorAvatarUrls.push(user.avatar_url)
       let filePath = user.login + '.jpg'
       cb(user.avatar_url, filePath)
@@ -56,7 +56,7 @@ function downloadImageByURL(url, filePath) {
          if(err){
            throw err
          } else if(response.statusCode === 200) {
-              console.log('\nDownloaded ' + filePath)
+
          }
        })
         .on('response', function(response) {
@@ -66,5 +66,5 @@ function downloadImageByURL(url, filePath) {
           }
         })
         .pipe(fs.createWriteStream('./avatars/' + filePath))
-        console.log('test')
-}
+        console.log('Downloaded ' + filePath
+        )}
